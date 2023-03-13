@@ -9,6 +9,10 @@ import { TokenManager } from "../services/TokenManager";
 import { TokenPayload, UserDB, USER_ROLES } from "../types";
 
 export class UserBusiness {
+    
+    getAll() {
+        throw new Error("Method not implemented.");
+    }
     constructor(
         private userDatabase: UserDatabase,
         private idGenerator: IdGenerator,
