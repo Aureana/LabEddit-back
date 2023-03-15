@@ -1,4 +1,4 @@
-import { PostModel } from "../types2"
+import { PostModel } from "../types"
 
 export interface GetPostsInputDTO {
     token: string | undefined

@@ -6,7 +6,7 @@ import { User } from "../models/User";
 import { HashManager } from "../services/HashManager";
 import { IdGenerator } from "../services/IdGenerator";
 import { TokenManager } from "../services/TokenManager";
-import { TokenPayload, UserDB, USER_ROLES } from "../types2";
+import { TokenPayload, UserDB, USER_ROLES } from "../types";
 
 export class UserBusiness {
     

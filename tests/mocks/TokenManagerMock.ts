@@ -1,4 +1,4 @@
-import { TokenPayload, USER_ROLES } from "../../src/types2"
+import { TokenPayload, USER_ROLES } from "../../src/types"
 
 export class TokenManagerMock {
 

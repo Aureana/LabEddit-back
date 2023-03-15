@@ -1,4 +1,4 @@
-import { CommentsDB, CommentsModel } from "../types2"
+import { CommentsDB, CommentsModel } from "../types"
 
 export class Comments {
     constructor(
