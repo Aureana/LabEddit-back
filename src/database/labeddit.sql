@@ -1,4 +1,4 @@
--- Active: 1678719895829@@127.0.0.1@3306
+-- Active: 1678731711203@@127.0.0.1@3306
 
 CREATE TABLE
     users (
@@ -9,7 +9,7 @@ CREATE TABLE
         role ENUM NOT NULL,
         created_at TEXT DEFAULT (DATETIME()) NOT NULL
     );
---DROP TABLE users;
+DROP TABLE users;
 
 
 CREATE TABLE

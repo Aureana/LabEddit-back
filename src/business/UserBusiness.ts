@@ -22,6 +22,7 @@ export class UserBusiness {
 
     public signup = async (input: SignupInputDTO): Promise<SignupOutputDTO> => {
         const { name, email, password } = input
+        
 
         if (typeof name !== "string") {
             throw new BadRequestError("'name' deve ser string")
