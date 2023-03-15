@@ -1,4 +1,4 @@
-import { PostModel } from '../types'
+import { PostModel } from '../types2'
 
 export interface SignupInputDTO {
     name: unknown,

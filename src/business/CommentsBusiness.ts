@@ -6,7 +6,7 @@ import { NotFoundError } from "../errors/NotFoundError"
 import { Comments } from "../models/CommentsModel"
 import { IdGenerator } from "../services/IdGenerator"
 import { TokenManager } from "../services/TokenManager"
-import { COMMENTS_LIKE, USER_ROLES,  LikeDislikeCommentsDB, CommentsModel } from "../types"
+import { COMMENTS_LIKE, USER_ROLES,  LikeDislikeCommentsDB, CommentsModel } from "../types2"
 
 export class CommentsBusiness {
     constructor(

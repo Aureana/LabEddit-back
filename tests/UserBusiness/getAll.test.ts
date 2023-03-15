@@ -3,7 +3,7 @@ import { HashManagerMock } from "../mocks/HashManagerMock"
 import { IdGeneratorMock } from "../mocks/IdGeneratorMock"
 import { TokenManagerMock } from "../mocks/TokenManagerMock"
 import { UserDatabaseMock } from "../mocks/UserDatabaseMock"
-import { USER_ROLES } from "../../src/types"
+import { USER_ROLES } from "../../src/types2"
 
 describe("GetAll", () => {
     const userBusiness = new UserBusiness(

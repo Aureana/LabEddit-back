@@ -1,4 +1,4 @@
-import { CommentsModel } from "../types"
+import { CommentsModel } from "../types2"
 
 export interface GetCommentsInputDTO {
     idToSearch: string,

@@ -1,4 +1,4 @@
-import { LikeDislikeDB, PostDB, PostWithCreatorDB, POST_LIKE } from "../types";
+import { LikeDislikeDB, PostDB, PostWithCreatorDB, POST_LIKE } from "../types2";
 import { BaseDatabase } from "./BaseDatabase";
 
 export class PostDatabase extends BaseDatabase {

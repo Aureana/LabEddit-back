@@ -1,4 +1,4 @@
-import { PostDB, PostModel } from "../types";
+import { PostDB, PostModel } from "../types2";
 
 export class Post {
    // comments: number;
