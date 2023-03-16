@@ -1,5 +1,7 @@
+import { CommentsDatabase } from "../database/CommentsDatabase";
 import { PostDatabase } from "../database/PostDatabase";
-import { CreatePostInputDTO, DeletePostInputDTO, EditPostInputDTO, GetPostsInputDTO, GetPostsOutputDTO, LikeOrDislikePostInputDTO } from "../dtos/userDTO";
+import { UserDatabase } from "../database/UserDatabase";
+import { CreatePostInputDTO, DeletePostInputDTO, EditPostInputDTO, GetPostsInputDTO, GetPostsOutputDTO, LikeOrDislikePostInputDTO } from "../dtos/PostDTO";
 import { BadRequestError } from "../errors/BadRequestError";
 import { NotFoundError } from "../errors/NotFoundError";
 import { Post } from "../models/Post";
@@ -57,10 +59,67 @@ export class PostBusiness {
         return output
     }
 
-    public createPost = async (
-        input: CreatePostInputDTO
-    ): Promise<void> => {
-        const { token, content } = input
+
+    public getPostComments = async (input: GetPostsInputDTO) => {
+
+        const { token } = input
+        console.log(input);
+        
+        if (token === undefined) {
+            throw new BadRequestError("token é necessário")
+        }
+
+        const payload = this.tokenManager.getPayload(token)
+
+        if (payload === null) {
+            throw new BadRequestError("'token' inválido")
+        }
+
+        const posts = await this.postDatabase.getPosts()
+
+        const userDatabase = new UserDatabase()
+
+        const users = await userDatabase.getUsers()
+
+        const commentsDatabase = new CommentsDatabase()
+
+        const comments = await commentsDatabase.getCommentsWithCreators()
+
+        const resultPost = posts.map((post) => {
+
+           const contador = comments.filter((comments) => {
+                return comments.post_id === post.id
+            })
+
+            return {
+                id: post.id,
+                content: post.content,
+                likes: post.likes,
+                dislikes: post.dislikes,
+                comments: contador.length,
+                created_at: post.created_at,
+                updated_at: post.updated_at,
+                creator: resultUser(post.creator_id),
+                cmt: contador
+            }
+        })
+
+        function resultUser(user: string) {
+            const resultTable = users.find((result) => {
+                return user === result.id
+            })
+
+            return {
+                id: resultTable?.id,
+                name: resultTable?.name
+            }
+        }
+
+        return ({ Post: resultPost })
+    }
+
+    public createPost = async (input: CreatePostInputDTO): Promise<boolean> => {
+        const { content, token } = input
 
         if (token === undefined) {
             throw new BadRequestError("token ausente")
@@ -69,35 +128,76 @@ export class PostBusiness {
         const payload = this.tokenManager.getPayload(token)
 
         if (payload === null) {
-            throw new BadRequestError("token inválido")
+            throw new BadRequestError("'token' inválido")
         }
 
         if (typeof content !== "string") {
-            throw new BadRequestError("'name' deve ser string")
+            throw new BadRequestError("'content' deve ser uma string")
         }
 
         const id = this.idGenerator.generate()
-        const createdAt = new Date().toISOString()
-        const updatedAt = new Date().toISOString()
-        const creatorId = payload.id
-        const creatorName = payload.name
 
-        const post = new Post(
+        const newPost = new Post(
             id,
             content,
             0,
             0,
             0,
-            createdAt,
-            updatedAt,
-            creatorId,
-            creatorName
+            new Date().toISOString(),
+            new Date().toISOString(),
+            payload.id,
+            payload.name
         )
 
-        const postDB = post.toDBModel()
+        const newPostDB = newPost.toDBModel()
 
-        await this.postDatabase.insert(postDB)
+        await this.postDatabase.insertPost(newPostDB)
+
+        return true
     }
+
+
+    // public createPost = async (
+    //     input: CreatePostInputDTO
+    // ): Promise<void> => {
+    //     const { token, content } = input
+
+    //     if (token === undefined) {
+    //         throw new BadRequestError("token ausente")
+    //     }
+
+    //     const payload = this.tokenManager.getPayload(token)
+
+    //     if (payload === null) {
+    //         throw new BadRequestError("token inválido")
+    //     }
+
+    //     if (typeof content !== "string") {
+    //         throw new BadRequestError("'name' deve ser string")
+    //     }
+
+    //     const id = this.idGenerator.generate()
+    //     const createdAt = new Date().toISOString()
+    //     const updatedAt = new Date().toISOString()
+    //     const creatorId = payload.id
+    //     const creatorName = payload.name
+
+    //     const post = new Post(
+    //         id,
+    //         content,
+    //         0,
+    //         0,
+    //         0,
+    //         createdAt,
+    //         updatedAt,
+    //         creatorId,
+    //         creatorName
+    //     )
+
+    //     const postDB = post.toDBModel()
+
+    //     await this.postDatabase.insert(postDB)
+    // }
 
     public editPost = async (
         input: EditPostInputDTO
@@ -118,7 +218,7 @@ export class PostBusiness {
             throw new BadRequestError("'name' deve ser string")
         }
 
-        const postDB = await this.postDatabase.findById(idToEdit)
+        const postDB = await this.postDatabase.findPostById(idToEdit)
 
         if (!postDB) {
             throw new NotFoundError("'id' não encontrado")
@@ -167,7 +267,7 @@ export class PostBusiness {
             throw new BadRequestError("token inválido")
         }
 
-        const postDB = await this.postDatabase.findById(idToDelete)
+        const postDB = await this.postDatabase.findPostById(idToDelete)
 
         if (!postDB) {
             throw new NotFoundError("'id' não encontrado")
@@ -179,10 +279,11 @@ export class PostBusiness {
             payload.role !== USER_ROLES.ADMIN
             && postDB.creator_id !== creatorId
         ) {
-            throw new BadRequestError("somente quem criou a Post pode deletá-la")
+            throw new BadRequestError("somente quem criou a Post pode deletá-lo")
         }
 
         await this.postDatabase.delete(idToDelete)
+
     }
 
     public likeOrDislikePost = async (

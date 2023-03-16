@@ -1,5 +1,5 @@
 import { UserDatabase } from "../database/UserDatabase"
-import { LoginInputDTO, LoginOutputDTO, SignupInputDTO, SignupOutputDTO } from "../dtos/userDTO";
+import { DeleteUserInputDTO, EditUserInputDTO, GetUsersInputDTO, GetUsersOutputDTO, LoginInputDTO, LoginOutputDTO, SignupInputDTO, SignupOutputDTO } from "../dtos/userDTO";
 import { BadRequestError } from "../errors/BadRequestError";
 import { NotFoundError } from "../errors/NotFoundError";
 import { User } from "../models/User";
@@ -8,11 +8,7 @@ import { IdGenerator } from "../services/IdGenerator";
 import { TokenManager } from "../services/TokenManager";
 import { TokenPayload, UserDB, USER_ROLES } from "../types";
 
-export class UserBusiness {
-    
-    getAll() {
-        throw new Error("Method not implemented.");
-    }
+export class UserBusiness { 
     constructor(
         private userDatabase: UserDatabase,
         private idGenerator: IdGenerator,
@@ -20,7 +16,7 @@ export class UserBusiness {
         private hashManager: HashManager
     ) {}
 
-    public signup = async (input: SignupInputDTO): Promise<SignupOutputDTO> => {
+    public signup = async (input: SignupInputDTO) => {
         const { name, email, password } = input
         
 
@@ -36,8 +32,16 @@ export class UserBusiness {
             throw new BadRequestError("'password' deve ser string")
         }
 
+        const emailAlreadyExists = await this.userDatabase.findUserByEmail(email)
+
+        if (emailAlreadyExists) {
+            throw new BadRequestError("'email' já existe")
+        }
+
         const id = this.idGenerator.generate()
+
         const hashedPassword = await this.hashManager.hash(password)
+        
         const role = USER_ROLES.NORMAL
         const createdAt = new Date().toISOString()
 
@@ -50,9 +54,16 @@ export class UserBusiness {
             createdAt
         )
 
-        const userDB = newUser.toDBModel()
+        const newUserDB = {
+            id: newUser.getId(),
+            name: newUser.getName(),
+            email: newUser.getEmail(),
+            password: newUser.getPassword(),
+            role: newUser.getRole(),
+            created_at: newUser.getCreatedAt()
+        }
 
-        await this.userDatabase.insert(userDB)
+        await this.userDatabase.insertUser(newUserDB)
 
         const payload: TokenPayload = {
             id: newUser.getId(),
@@ -62,8 +73,8 @@ export class UserBusiness {
 
         const token = this.tokenManager.createToken(payload)
 
-        const output: SignupOutputDTO = {
-            token
+        const output = {
+            token: token
         }
 
         return output
@@ -80,7 +91,7 @@ export class UserBusiness {
             throw new BadRequestError("'password' deve ser string")
         }
 
-        const userDB: UserDB | undefined = await this.userDatabase.findByEmail(email)
+        const userDB: UserDB | undefined = await this.userDatabase.findUserByEmail(email)
 
         if (!userDB) {
             throw new NotFoundError("'email' não cadastrado")
@@ -118,4 +129,126 @@ export class UserBusiness {
 
         return output
     }
+
+
+public getUsers = async (input: GetUsersInputDTO): Promise<GetUsersOutputDTO> => {
+    const { token } = input
+
+    if (token === undefined) {
+        throw new BadRequestError("token é necessário")
+    }
+
+    const payload = this.tokenManager.getPayload(token)
+
+    if (payload === null) {
+        throw new BadRequestError("'token' inválido")
+    }
+
+    const usersDB = await this.userDatabase.getUsers()
+
+    const users = usersDB.map((userDB) => {
+        const user = new User(
+            userDB.id,
+            userDB.name,
+            userDB.email,
+            userDB.password,
+            userDB.role,
+            userDB.created_at
+        )
+        return user.toBusinessModel()
+    })
+
+    const output: GetUsersOutputDTO = users
+
+    return output
+}
+
+public editUser = async (input: EditUserInputDTO): Promise<void> => {
+    const { idToEdit, token, email, password } = input
+
+    if (token === undefined) {
+        throw new BadRequestError("token é necessário")
+    }
+
+    if (idToEdit === undefined) {
+        throw new BadRequestError("'id' é necessário")
+    }
+
+    // if (idToEdit !== "string") {
+    //     throw new BadRequestError("'id' deve ser string")
+    // }
+
+    const payload = this.tokenManager.getPayload(token)
+
+    if (payload === null) {
+        throw new BadRequestError("'token inválido");
+    }
+
+    if (email !== undefined) {
+        if (typeof email !== "string") 
+            throw new BadRequestError("'email' deve ser uma string")
+    }
+
+    if (password !== undefined) {
+        if (typeof password !== "string") 
+            throw new BadRequestError("'password' deve ser uma string")        
+    }
+
+    const newUserDB = await this.userDatabase.findUserById(idToEdit)
+
+    if (!newUserDB) {
+        throw new NotFoundError("'id' não encontrado")
+    }
+
+    const user = new User(
+        newUserDB.id,
+        newUserDB.name,
+        newUserDB.email,
+        newUserDB.password,
+        newUserDB.role,
+        newUserDB.created_at
+    )
+
+    if (password) {
+        user.setPassword(password)
+    }
+
+    if (email) {
+        user.setEmail(email)
+    }
+
+    const updatedUserDB = user.toDBModel()
+
+    await this.userDatabase.editUser(updatedUserDB, idToEdit)
+}
+
+public deleteUser = async (input: DeleteUserInputDTO): Promise<boolean> => {
+    const { idToDelete, token } = input
+
+    if (token === undefined) {
+        throw new BadRequestError("'token' inválido")
+    }
+
+    const payload = this.tokenManager.getPayload(token)
+
+    if (!payload) {
+        throw new BadRequestError("'token' inválido")
+    }
+
+    const userDBExists = await this.userDatabase.findUserById(idToDelete)
+
+    if (!userDBExists) {
+        throw new NotFoundError("'id' não existe");
+    }
+
+    const creatorId = payload.id
+
+    if (payload.role !== USER_ROLES.ADMIN && userDBExists.id !== creatorId) {
+        throw new BadRequestError("somente o próprio usuário ou um admin pode deleta-lo");
+    }
+
+    await this.userDatabase.deleteUser(idToDelete)
+
+    return true
+}
 }

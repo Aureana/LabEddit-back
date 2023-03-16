@@ -6,7 +6,7 @@ import { NotFoundError } from "../errors/NotFoundError"
 import { Comments } from "../models/CommentsModel"
 import { IdGenerator } from "../services/IdGenerator"
 import { TokenManager } from "../services/TokenManager"
-import { COMMENTS_LIKE, USER_ROLES,  LikeDislikeCommentsDB, CommentsModel } from "../types"
+import { COMMENTS_LIKE, USER_ROLES,  LikeDislikeCommentsDB, CommentsModel, CommentsWithCreatorDB } from "../types"
 
 export class CommentsBusiness {
     constructor(
@@ -15,6 +15,43 @@ export class CommentsBusiness {
         private idGenerator: IdGenerator,
         private tokenManager: TokenManager
     ) { }
+
+    public getComments = async (input: GetCommentsInputDTO): Promise<GetCommentsOutputDTO> => {
+
+        const { token } = input
+
+        if (token === undefined) {
+            throw new BadRequestError("token é necessário")
+        }
+
+        const payload = this.tokenManager.getPayload(token)
+
+        if (payload === null) {
+            throw new BadRequestError("'token' inválido")
+        }
+
+        const commentsWithCreatorsDB: CommentsWithCreatorDB[] =
+            await this.commentsDatabase.getCommentsWithCreators()
+
+        const comments = commentsWithCreatorsDB.map((commentsWithCreatorDB) => {
+            const comment = new Comments (
+                commentsWithCreatorDB.id,
+                commentsWithCreatorDB.post_id,
+                commentsWithCreatorDB.user_id,
+                commentsWithCreatorDB.comments,
+                commentsWithCreatorDB.likes,
+                commentsWithCreatorDB.dislikes,
+                commentsWithCreatorDB.created_at,
+            )
+
+            return comment.toBusinessModel()
+        })
+
+        const output: GetCommentsOutputDTO = comments
+
+        return output
+    }
+
 
     public getCommentsById = async (input: GetCommentsInputDTO): Promise<CommentsModel> => {
 
@@ -63,8 +100,8 @@ export class CommentsBusiness {
             throw new BadRequestError("'token' inválido")
         }
         console.log(payload);
-        console.log(postId, "Eu estou aquiiii");
-        const postDBExists = await this.postDatabase.findById(postId)
+        console.log(postId, "OLHA AQUI");
+        const postDBExists = await this.postDatabase.findPostById(postId)
         
         if (postDBExists === null) {
             throw new NotFoundError("'id' não encontrado")

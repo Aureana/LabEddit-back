@@ -1,4 +1,4 @@
-import { PostModel } from '../types'
+import { PostModel, UserModel, USER_ROLES } from '../types'
 
 export interface SignupInputDTO {
     name: unknown,
@@ -19,30 +19,29 @@ export interface LoginOutputDTO {
     token: string
 }
 
-export interface GetPostsInputDTO {
+export interface GetUsersInputDTO {
     token: string | undefined
 }
 
-export type GetPostsOutputDTO = PostModel[]
+export type GetUsersOutputDTO = UserModel[]
 
-export interface CreatePostInputDTO {
+export interface EditUserInputDTO {
+    idToEdit?: string,
     token: string | undefined,
-    content: unknown
+    email?: string,
+    password?: string
 }
 
-export interface EditPostInputDTO {
-    idToEdit: string,
-    token: string | undefined,
-    content: unknown
+export interface EditUserOutputDTO {
+    id: string,
+    name: string,
+    email: string,
+    password: string,
+    role: USER_ROLES,
+    CreatedAt: string
 }
 
-export interface DeletePostInputDTO {
+export interface DeleteUserInputDTO {
     idToDelete: string,
     token: string | undefined
-}
-
-export interface LikeOrDislikePostInputDTO {
-    idToLikeOrDislike: string,
-    token: string | undefined,
-    like: unknown
 }

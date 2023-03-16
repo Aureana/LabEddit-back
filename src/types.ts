@@ -27,7 +27,7 @@ export interface PostModel {
         id: string,
         name: string
     }
-} // nickName: string  => no nosso é so name
+}
 
 export interface PostDB {
     id: string,
