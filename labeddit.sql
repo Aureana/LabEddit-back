@@ -9,6 +9,13 @@ CREATE TABLE
         role ENUM NOT NULL,
         created_at TEXT DEFAULT (DATETIME()) NOT NULL
     );
+    
+     INSERT INTO users (id, name, email, password, role)
+VALUES
+    ("u001", "Marta", "marta@gmail.com", "98123", "ADMIN"),
+    ("u002", "karol", "karol@gmail.com", "7893", "NORMAL"),
+    ("u003", "Roberta", "roberta@gmail.com", "koi985", "NORMAL");
+
 DROP TABLE users;
 
 
@@ -26,6 +33,12 @@ CREATE TABLE
             ON DELETE CASCADE --toda vez q um id de usuario for deletado, todos os post daquele usuario sera deletado
             ON UPDATE CASCADE --toda vez q um id de usuario for editado, todos os post daquele usuario sera atualizado
     );
+
+    INSERT INTO posts (id, creator_id, content) 
+VALUES
+    ("p001", "u001", "Você está maravilhosa"),
+    ("p002", "u002", "Esta pago!"),
+    ("p003", "u003", "#Jantinha");
     
     -- DROP TABLE posts;
 
@@ -40,21 +53,7 @@ CREATE TABLE
         FOREIGN KEY (post_id) REFERENCES posts (id)
         ON DELETE CASCADE
         ON UPDATE CASCADE
-    );
-
- -- DROP TABLE likes_dislikes ;
-
-     INSERT INTO users (id, name, email, password, role)
-VALUES
-    ("u001", "Marta", "marta@gmail.com", "98123", "ADMIN"),
-    ("u002", "karol", "karol@gmail.com", "7893", "NORMAL"),
-    ("u003", "Roberta", "roberta@gmail.com", "koi985", "NORMAL");
-
-INSERT INTO posts (id, creator_id, content) 
-VALUES
-    ("p001", "u001", "Você está maravilhosa"),
-    ("p002", "u002", "Esta pago!"),
-    ("p003", "u003", "#Jantinha");
+    ); 
 
 INSERT INTO
 likes_dislikes (user_id, post_id, like)
@@ -66,8 +65,10 @@ VALUES
 ("u001", "p003", 1),
 ("u003", "p003", 0);
 
+-- DROP TABLE likes_dislikes ;
 
--- tem que executar o comando create table comments para ver se vaidar certo, pq só criei aqui e n testei no banco
+
+-- tem que executar o comando create table comments para ver se vaidar certo, pq só criei aqui e n testei 
 CREATE TABLE
     comments (
         id TEXT PRIMARY KEY UNIQUE NOT NULL,
@@ -78,8 +79,7 @@ CREATE TABLE
         dislikes INTEGER,
         created_at TEXT DEFAULT (DATETIME()) NOT NULL,
         FOREIGN KEY (post_id) REFERENCES posts(id) ON DELETE CASCADE ON UPDATE CASCADE FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE ON UPDATE CASCADE
-    );
-
+    )
 INSERT INTO comments (id, post_id, user_id, comments)
 VALUES
     ("c001", "p001", "u002", "De hoje está pago!"),

@@ -8,6 +8,28 @@ export class CommentsController {
         private commentsBusiness: CommentsBusiness
     ) { }
 
+    public getComments = async (req: Request, res: Response) => {
+        try {
+            const input: GetCommentsInputDTO = {
+                token: req.headers.authorization,
+                idToSearch: ""
+            }
+
+            const output = await this.commentsBusiness.getComments(input)
+
+            res.status(200).send(output)
+        } catch (error) {
+            console.log(error)
+
+            if (error instanceof BaseError) {
+                res.status(error.statusCode).send(error.message)
+            } else {
+                res.send("Erro inesperado")
+            }
+        }
+    }
+
+
     public getCommentsById = async (req: Request, res: Response) => {
         try {
             const input: GetCommentsInputDTO = {

@@ -16,6 +16,24 @@ export class CommentsDatabase extends BaseDatabase {
         return result[0]
     }
 
+    public getCommentsWithCreators = async (): Promise<CommentsWithCreatorDB[]> => {
+        const result: CommentsWithCreatorDB[] = await BaseDatabase
+            .connection(CommentsDatabase.TABLE_COMMENTS)
+            .select(
+                "comments.id",
+                "comments.post_id",
+                "comments.user_id",
+                "comments.comments",
+                "comments.likes",
+                "comments.dislikes",
+                "comments.created_at",
+                "users.name AS creator_name"
+            )
+            .join("users", "comments.user_id", "=", "users.id")
+
+        return result
+    }
+
     public findCommentsWithPostId = async (
         commentsId: string
     ): Promise<CommentsWithCreatorDB | undefined> => {

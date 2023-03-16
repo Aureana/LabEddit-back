@@ -24,20 +24,39 @@ export class PostDatabase extends BaseDatabase {
         return result
     }
 
-    public insert = async (postDB: PostDB): Promise<void> => {
+    public getPosts = async (): Promise<PostDB[]> => {
+        const result: PostDB[] = await BaseDatabase
+            .connection(PostDatabase.TABLE_POSTS)
+            .select()
+
+        return result
+    }
+
+    public findPostById = async (idParams: string): Promise<PostDB | undefined> => {
+        const result: PostDB[] = await BaseDatabase
+            .connection(PostDatabase.TABLE_POSTS)
+            .select()
+            .where({ id: idParams })
+
+        return result[0]
+    }
+
+    public insertPost = async (postDB: PostDB): Promise<void> => {
         await BaseDatabase
             .connection(PostDatabase.TABLE_POSTS)
             .insert(postDB)
     }
 
-    public findById = async (id: string): Promise<PostDB | undefined> => {
-        const result: PostDB[] = await BaseDatabase
-            .connection(PostDatabase.TABLE_POSTS)
-            .select()
-            .where({ id })
+    // public findById = async (id: string): Promise<PostDB | undefined> => {
+    //     const result: PostDB[] = await BaseDatabase
+    //         .connection(PostDatabase.TABLE_POSTS)
+    //         .select()
+    //         .where({ id })
         
-        return result[0]
-    }
+    //     return result[0]
+    // }
+
+  
 
     public update = async (
         id: string,

@@ -1,6 +1,6 @@
 import { Request, Response } from "express"
 import { UserBusiness } from "../business/UserBusiness"
-import { LoginInputDTO, SignupInputDTO, SignupOutputDTO } from "../dtos/userDTO"
+import { DeleteUserInputDTO, EditUserInputDTO, GetUsersInputDTO, LoginInputDTO, SignupInputDTO, SignupOutputDTO } from "../dtos/userDTO"
 import { BaseError } from "../errors/BaseError"
 
 export class UserController {
@@ -49,4 +49,69 @@ export class UserController {
             }
         }
     }
+    public getUsers = async (req: Request, res: Response) => {
+        try {
+            const input: GetUsersInputDTO = {
+                token: req.headers.authorization
+            }
+
+            const outPut = await this.userBusiness.getUsers(input)
+
+            res.status(200).send(outPut)
+        } catch (error) {
+            console.log(error)
+
+            if (error instanceof BaseError) {
+                res.status(error.statusCode).send(error.message)
+            } else {
+                res.status(500).send("Erro inesperado")
+            }
+        }
+    }
+
+    public editUser = async (req: Request, res: Response) => {
+        try {
+            const input: EditUserInputDTO = {
+               idToEdit: req.params.id,
+               token: req.headers.authorization,
+               email: req.body.email,
+               password: req.body.password
+            }
+               
+            const outPut = await this.userBusiness.editUser(input)
+
+            res.status(200).send(outPut)
+        } catch (error) {
+            console.log(error)
+
+            if (error instanceof BaseError) {
+                res.status(error.statusCode).send(error.message)
+            } else {
+                res.send("Erro inesperado")
+            }
+        }
+    }
+
+    public deleteUser = async (req: Request, res: Response) => {
+        try {
+            const input: DeleteUserInputDTO = { 
+                idToDelete: req.params.id,
+                token: req.headers.authorization
+            }
+
+            const outPut = await this.userBusiness.deleteUser(input)
+
+            res.status(200).send(outPut)
+
+        } catch (error) {
+            console.log(error)
+
+            if (error instanceof BaseError) {
+                res.status(error.statusCode).send(error.message)
+            } else {
+                res.send("Erro inesperado")
+            }
+        }
+    }
+
 }
