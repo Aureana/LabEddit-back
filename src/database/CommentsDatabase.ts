@@ -13,6 +13,9 @@ export class CommentsDatabase extends BaseDatabase {
             .select()
             .where({ id })
 
+            console.log(id)
+            console.log(result)
+
         return result[0]
     }
 

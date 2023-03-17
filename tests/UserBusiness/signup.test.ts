@@ -1,10 +1,11 @@
 import { UserBusiness } from "../../src/business/UserBusiness"
 import { SignupInputDTO } from "../../src/dtos/userDTO"
 import { BadRequestError } from "../../src/errors/BadRequestError"
-import { HashManagerMock } from "../mocks/HashManagerMock"
-import { IdGeneratorMock } from "../mocks/IdGeneratorMock"
-import { TokenManagerMock } from "../mocks/TokenManagerMock"
-import { UserDatabaseMock } from "../mocks/UserDatabaseMock"
+import { HashManagerMock } from "../mocks/service/HashManagerMock"
+import { TokenManagerMock } from "../mocks/service/TokenManagerMock"
+import { IdGeneratorMock } from "../mocks/service/IdGeneratorMock"
+import { UserDatabaseMock } from "../mocks/service/UserDatabaseMock"
+
 
 describe("signup", () => {
     const userBusiness = new UserBusiness(
