@@ -4,7 +4,7 @@ import { BadRequestError } from "../../src/errors/BadRequestError"
 import { HashManagerMock } from "../mocks/service/HashManagerMock"
 import { TokenManagerMock } from "../mocks/service/TokenManagerMock"
 import { IdGeneratorMock } from "../mocks/service/IdGeneratorMock"
-import { UserDatabaseMock } from "../mocks/service/UserDatabaseMock"
+import { UserDatabaseMock } from "../mocks/database/UserDatabaseMock"
 
 
 describe("signup", () => {

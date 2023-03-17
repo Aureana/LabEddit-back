@@ -58,7 +58,7 @@ export class UserDatabaseMock extends BaseDatabase {
                     id: "id-mock",
                     name: "Normal Mock",
                     email: "normal@email.com",
-                    password: "hash-password",
+                    password: "hash-bananinha",
                     role: USER_ROLES.NORMAL,
                     created_at: new Date().toISOString(),
                 }
@@ -67,7 +67,7 @@ export class UserDatabaseMock extends BaseDatabase {
                     id: "id-mock",
                     name: "Admin Mock",
                     email: "admin@email.com",
-                    password: "hash-password",
+                    password: "hash-bananinha",
                     role: USER_ROLES.ADMIN,
                     created_at: new Date().toISOString(),
                 }

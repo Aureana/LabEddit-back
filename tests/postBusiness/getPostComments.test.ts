@@ -22,7 +22,8 @@ describe("getPostComment", () => {
         const response = await postBusiness.getPostComments(input)
         console.log(response);
         
-        expect(response).toContain([
+        expect(response).toEqual([
+            
             {
                 id: 'id-post-mock',
                 content: 'primeiro post mock',

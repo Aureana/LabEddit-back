@@ -164,48 +164,6 @@ export class PostBusiness {
     }
 
 
-    // public createPost = async (
-    //     input: CreatePostInputDTO
-    // ): Promise<void> => {
-    //     const { token, content } = input
-
-    //     if (token === undefined) {
-    //         throw new BadRequestError("token ausente")
-    //     }
-
-    //     const payload = this.tokenManager.getPayload(token)
-
-    //     if (payload === null) {
-    //         throw new BadRequestError("token inválido")
-    //     }
-
-    //     if (typeof content !== "string") {
-    //         throw new BadRequestError("'name' deve ser string")
-    //     }
-
-    //     const id = this.idGenerator.generate()
-    //     const createdAt = new Date().toISOString()
-    //     const updatedAt = new Date().toISOString()
-    //     const creatorId = payload.id
-    //     const creatorName = payload.name
-
-    //     const post = new Post(
-    //         id,
-    //         content,
-    //         0,
-    //         0,
-    //         0,
-    //         createdAt,
-    //         updatedAt,
-    //         creatorId,
-    //         creatorName
-    //     )
-
-    //     const postDB = post.toDBModel()
-
-    //     await this.postDatabase.insert(postDB)
-    // }
-
     public editPost = async (
         input: EditPostInputDTO
     ): Promise<void> => {
