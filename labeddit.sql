@@ -79,7 +79,8 @@ CREATE TABLE
         dislikes INTEGER,
         created_at TEXT DEFAULT (DATETIME()) NOT NULL,
         FOREIGN KEY (post_id) REFERENCES posts(id) ON DELETE CASCADE ON UPDATE CASCADE FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE ON UPDATE CASCADE
-    )
+    );
+
 INSERT INTO comments (id, post_id, user_id, comments)
 VALUES
     ("c001", "p001", "u002", "De hoje está pago!"),
@@ -100,7 +101,7 @@ CREATE TABLE
         FOREIGN KEY (comments_id) REFERENCES comments (id) ON DELETE CASCADE ON UPDATE CASCADE
     );
 
-
+DROP TABLE comments_likes_dislikes;
 
 UPDATE posts
 SET likes = 2

@@ -95,7 +95,7 @@ export class PostController {
                 idToDelete: req.params.id,
                 token: req.headers.authorization
             }
-
+         
             await this.postBusiness.deletePost(input)
 
             res.status(200).end()

@@ -43,10 +43,8 @@ export class CommentsBusiness {
                 commentsWithCreatorDB.dislikes,
                 commentsWithCreatorDB.created_at,
             )
-
             return comment.toBusinessModel()
         })
-
         const output: GetCommentsOutputDTO = comments
 
         return output

@@ -49,22 +49,26 @@ export class PostBusiness {
                     postWithCreatorDB.creator_id,
                     postWithCreatorDB.creator_name
                 )
+               // console.log(post)
 
-                return post.toBusinessModel()
-            }
+                return post.toBusinessModel()                
+                               
+            }            
         )
-
+       
         const output: GetPostsOutputDTO = posts
 
         return output
-    }
+
+    }  
 
 
     public getPostComments = async (input: GetPostsInputDTO) => {
 
         const { token } = input
         console.log(input);
-        
+
+                
         if (token === undefined) {
             throw new BadRequestError("token é necessário")
         }
@@ -89,7 +93,8 @@ export class PostBusiness {
 
            const contador = comments.filter((comments) => {
                 return comments.post_id === post.id
-            })
+            })   
+            console.log(contador)       
 
             return {
                 id: post.id,
@@ -101,9 +106,9 @@ export class PostBusiness {
                 updated_at: post.updated_at,
                 creator: resultUser(post.creator_id),
                 cmt: contador
-            }
+            }            
         })
-
+        
         function resultUser(user: string) {
             const resultTable = users.find((result) => {
                 return user === result.id
@@ -111,12 +116,14 @@ export class PostBusiness {
 
             return {
                 id: resultTable?.id,
-                name: resultTable?.name
-            }
-        }
+                name: resultTable?.name                
+            }           
+        }     
 
-        return ({ Post: resultPost })
+        return ({ Post: resultPost })              
     }
+    
+  
 
     public createPost = async (input: CreatePostInputDTO): Promise<boolean> => {
         const { content, token } = input
