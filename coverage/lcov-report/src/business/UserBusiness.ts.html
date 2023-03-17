@@ -23,16 +23,16 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">85.04% </span>
+                <span class="strong">90.65% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>91/107</span>
+                <span class='fraction'>97/107</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">53.84% </span>
+                <span class="strong">61.53% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>14/26</span>
+                <span class='fraction'>16/26</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">84.31% </span>
+                <span class="strong">90.19% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>86/102</span>
+                <span class='fraction'>92/102</span>
             </div>
         
             
@@ -399,53 +399,53 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -654,8 +654,8 @@ export class UserBusiness {
     public login = async (input: LoginInputDTO): Promise&lt;LoginOutputDTO&gt; =&gt; {
         const { email, password } = input
 &nbsp;
-        <span class="missing-if-branch" title="if path not taken" >I</span>if (typeof email !== "string") {
-<span class="cstat-no" title="statement not covered" >            throw new BadRequestError("'email' deve ser string")</span>
+        if (typeof email !== "string") {
+            throw new BadRequestError("'email' deve ser string")
         }
 &nbsp;
         <span class="missing-if-branch" title="if path not taken" >I</span>if (typeof password !== "string") {
@@ -664,8 +664,8 @@ export class UserBusiness {
 &nbsp;
         const userDB: UserDB | undefined = await this.userDatabase.findUserByEmail(email)
 &nbsp;
-        <span class="missing-if-branch" title="if path not taken" >I</span>if (!userDB) {
-<span class="cstat-no" title="statement not covered" >            throw new NotFoundError("'email' não cadastrado")</span>
+        if (!userDB) {
+            throw new NotFoundError("'email' não cadastrado")
         }
 &nbsp;
         const user = new User(
@@ -686,19 +686,19 @@ export class UserBusiness {
             throw new BadRequestError("'password' incorreto")
         }
         
-        const payload: TokenPayload = <span class="cstat-no" title="statement not covered" >{</span>
+        const payload: TokenPayload = {
             id: user.getId(),
             name: user.getName(),
             role: user.getRole()
         }
 &nbsp;
-        const token = <span class="cstat-no" title="statement not covered" >this.tokenManager.createToken(payload)</span>
+        const token = this.tokenManager.createToken(payload)
 &nbsp;
-        const output: LoginOutputDTO = <span class="cstat-no" title="statement not covered" >{</span>
+        const output: LoginOutputDTO = {
             token
         }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >        return output</span>
+        return output
     }
 &nbsp;
 &nbsp;
@@ -829,7 +829,7 @@ public deleteUser = async (input: DeleteUserInputDTO): Promise&lt;boolean&gt; =&
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2023-03-16T22:08:09.918Z
+                at 2023-03-17T17:51:11.053Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

@@ -98,7 +98,7 @@ export class CommentsBusiness {
             throw new BadRequestError("'token' inválido")
         }
         console.log(payload);
-        console.log(postId, "OLHA AQUI");
+        //console.log(postId, "OLHA AQUI");
         const postDBExists = await this.postDatabase.findPostById(postId)
         
         if (postDBExists === null) {

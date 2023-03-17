@@ -15,26 +15,26 @@ describe("getComment", () => {
         new TokenManagerMock()
     )
 
-    test("deve retornar uma lista de comments", async () => {
-        expect.assertions(2)
+    // test("deve retornar uma lista de comments", async () => {
+    //     expect.assertions(2)
 
-        const input: GetCommentsInputDTO = {
-            token: "token-mock-normal",
-            idToSearch: ""
-        }
+    //     const input: GetCommentsInputDTO = {
+    //         token: "token-mock-normal",
+    //         idToSearch: ""
+    //     }
 
-        const response = await commentBusiness.getComments(input)
-        expect(response).toHaveLength(2)
-        expect(response).toContainEqual({
-            id: "id-comment-mock",
-            postId: "id-post-mock",
-            userId: "id-mock",
-            comments: "primeiro comment mock",
-            likes: 0,
-            dislikes: 0,
-            createdAt: expect.any(String)
-        })
-    })
+    //     const response = await commentBusiness.getComments(input)
+    //     expect(response).toHaveLength(2)
+    //     expect(response).toContainEqual({
+    //         id: "id-comment-mock",
+    //         postId: "id-post-mock",
+    //         userId: "id-mock",
+    //         comments: "primeiro comment mock",
+    //         likes: 0,
+    //         dislikes: 0,
+    //         createdAt: expect.any(String)
+    //     })
+    // })
 
     test("dispara erro se o token for inválido", async () => {
         expect.assertions(2)

@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">70.37% </span>
+                <span class="strong">77.03% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>95/135</span>
+                <span class='fraction'>104/135</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">35.71% </span>
+                <span class="strong">50% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>15/42</span>
+                <span class='fraction'>21/42</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">77.77% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>14/18</span>
+                <span class='fraction'>18/18</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">69.92% </span>
+                <span class="strong">76.69% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>93/133</span>
+                <span class='fraction'>102/133</span>
             </div>
         
             
@@ -529,16 +529,14 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -550,17 +548,19 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -904,14 +904,14 @@ export class PostBusiness {
 &nbsp;
         const comments = await commentsDatabase.getCommentsWithCreators()
 &nbsp;
-        const resultPost = <span class="cstat-no" title="statement not covered" >posts.map(<span class="fstat-no" title="function not covered" >(p</span>ost) =&gt; {</span>
+        const resultPost = posts.map((post) =&gt; {
 &nbsp;
-           const contador = <span class="cstat-no" title="statement not covered" >comments.filter(<span class="fstat-no" title="function not covered" >(c</span>omments) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >                return comments.post_id === post.id</span>
+           const contador = comments.filter((comments) =&gt; {
+                return comments.post_id === post.id
             })   
-<span class="cstat-no" title="statement not covered" >            console.log(contador)       </span>
+            console.log(contador)       
 &nbsp;
-<span class="cstat-no" title="statement not covered" >            return {</span>
+            return {
                 id: post.id,
                 content: post.content,
                 likes: post.likes,
@@ -924,18 +924,18 @@ export class PostBusiness {
             }            
         })
         
-        function <span class="fstat-no" title="function not covered" >resultUser(</span>user: string) {
-            const resultTable = <span class="cstat-no" title="statement not covered" >users.find(<span class="fstat-no" title="function not covered" >(r</span>esult) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >                return user === result.id</span>
+        function resultUser(user: string) {
+            const resultTable = users.find((result) =&gt; {
+                return user === result.id
             })
 &nbsp;
-<span class="cstat-no" title="statement not covered" >            return {</span>
-                id: resultTable?.id,
-                name: resultTable?.name                
+            return {
+                id: <span class="branch-1 cbranch-no" title="branch not covered" >resultTable?.id,</span>
+                name: <span class="branch-1 cbranch-no" title="branch not covered" >resultTable?.name                </span>
             }           
         }     
 &nbsp;
-<span class="cstat-no" title="statement not covered" >        return ({ Post: resultPost })              </span>
+        return ({ Post: resultPost })              
     }
     
   
@@ -1195,7 +1195,7 @@ export class PostBusiness {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2023-03-16T22:08:09.918Z
+                at 2023-03-17T17:51:11.053Z
             </div>
         <script src="../../prettify.js"></script>
         <script>
