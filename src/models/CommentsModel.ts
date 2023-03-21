@@ -4,7 +4,7 @@ export class Comments {
     constructor(
         private id: string,
         private postId: string,
-        private userId: string,
+        private userName: string,
         private comments: string,
         private likes: number,
         private dislikes: number,
@@ -35,12 +35,12 @@ export class Comments {
         this.comments = value
     }
 
-    public getUserId(): string {
-        return this.userId
+    public getUserName(): string {
+        return this.userName
     }
 
-    public setUserId(value: string): void {
-        this.userId = value
+    public setUserName(value: string): void {
+        this.userName = value
     }
 
     public getLikes(): number {
@@ -88,7 +88,7 @@ export class Comments {
         return {
             id: this.id,
             post_id: this.postId,
-            user_id: this.userId,
+            user_id: this.userName,
             comments: this.comments,
             likes: this.likes,
             dislikes: this.dislikes,
@@ -100,7 +100,7 @@ export class Comments {
         return {
             id: this.id,
             postId: this.postId,
-            userId: this.userId,
+            userName: this.userName,
             comments: this.comments,
             likes: this.likes,
             dislikes: this.dislikes,

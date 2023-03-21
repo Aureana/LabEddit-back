@@ -1,6 +1,6 @@
 import { Request, Response } from "express"
 import { PostBusiness } from "../business/PostBusiness"
-import { CreatePostInputDTO, DeletePostInputDTO, EditPostInputDTO, GetPostsInputDTO, LikeOrDislikePostInputDTO } from "../dtos/PostDTO"
+import { CreatePostInputDTO, DeletePostInputDTO, EditPostInputDTO, getPostCommentsInputDTO, GetPostsInputDTO, LikeOrDislikePostInputDTO } from "../dtos/PostDTO"
 import { BaseError } from "../errors/BaseError"
 
 export class PostController {
@@ -27,13 +27,14 @@ export class PostController {
         }
     }
 
-    public getPostComments = async (req: Request, res: Response) => {
+    public getCommentsByPostId = async (req: Request, res: Response) => {
         try {
-            const input: GetPostsInputDTO = {
+            const input: getPostCommentsInputDTO = {
+                id: req.params.id,
                 token: req.headers.authorization
             }
 
-            const output = await this.postBusiness.getPostComments(input)
+            const output = await this.postBusiness.getCommentsByPostId(input)
 
             res.status(200).send(output)
         } catch (error) {
@@ -46,6 +47,26 @@ export class PostController {
             }
         }
     }
+
+    // public getPostComments = async (req: Request, res: Response) => {
+    //     try {
+    //         const input: GetPostsInputDTO = {
+    //             token: req.headers.authorization
+    //         }
+
+    //         const output = await this.postBusiness.getPostComments(input)
+
+    //         res.status(200).send(output)
+    //     } catch (error) {
+    //         console.log(error)
+
+    //         if (error instanceof BaseError) {
+    //             res.status(error.statusCode).send(error.message)
+    //         } else {
+    //             res.send("Erro inesperado")
+    //         }
+    //     }
+    // }
 
 
     public createPost = async (req: Request, res: Response) => {

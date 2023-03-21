@@ -1,7 +1,7 @@
 import { CommentsDatabase } from "../database/CommentsDatabase";
 import { PostDatabase } from "../database/PostDatabase";
 import { UserDatabase } from "../database/UserDatabase";
-import { CreatePostInputDTO, DeletePostInputDTO, EditPostInputDTO, GetPostsInputDTO, GetPostsOutputDTO, LikeOrDislikePostInputDTO } from "../dtos/PostDTO";
+import { CreatePostInputDTO, DeletePostInputDTO, EditPostInputDTO, GetPostsInputDTO, GetPostsOutputDTO, LikeOrDislikePostInputDTO, getPostCommentsInputDTO } from "../dtos/PostDTO";
 import { BadRequestError } from "../errors/BadRequestError";
 import { NotFoundError } from "../errors/NotFoundError";
 import { Post } from "../models/Post";
@@ -62,13 +62,10 @@ export class PostBusiness {
 
     }  
 
+    public getCommentsByPostId = async (input: getPostCommentsInputDTO) => {
 
-    public getPostComments = async (input: GetPostsInputDTO) => {
+        const { id, token } = input
 
-        const { token } = input
-        console.log(input);
-
-                
         if (token === undefined) {
             throw new BadRequestError("token é necessário")
         }
@@ -77,6 +74,12 @@ export class PostBusiness {
 
         if (payload === null) {
             throw new BadRequestError("'token' inválido")
+        }
+
+        const postIdExists = await this.postDatabase.findPostById(id)
+
+        if (!postIdExists) {
+            throw new BadRequestError("'id' não encontrada")
         }
 
         const posts = await this.postDatabase.getPosts()
@@ -89,12 +92,15 @@ export class PostBusiness {
 
         const comments = await commentsDatabase.getCommentsWithCreators()
 
-        const resultPost = posts.map((post) => {
+        const post = posts.filter((post) => {
+            const samePost = postIdExists.id === post.id
+            return samePost
+        })
 
-           const contador = comments.filter((comments) => {
+        const resultPost = post.map((post) => {
+            const contador = comments.filter((comments) => {
                 return comments.post_id === post.id
-            })   
-            console.log(contador)       
+            })
 
             return {
                 id: post.id,
@@ -106,9 +112,9 @@ export class PostBusiness {
                 updated_at: post.updated_at,
                 creator: resultUser(post.creator_id),
                 cmt: contador
-            }            
+            }
         })
-        
+
         function resultUser(user: string) {
             const resultTable = users.find((result) => {
                 return user === result.id
@@ -116,14 +122,75 @@ export class PostBusiness {
 
             return {
                 id: resultTable?.id,
-                name: resultTable?.name                
-            }           
-        }     
+                name: resultTable?.name
+            }
+        }
 
-        return ({ Post: resultPost })              
+        return ({ Post: resultPost })
     }
+//AQUI
+
+    // public getPostComments = async (input: GetPostsInputDTO) => {
+
+    //     const { token } = input
+    //     console.log(input);
+
+                
+    //     if (token === undefined) {
+    //         throw new BadRequestError("token é necessário")
+    //     }
+
+    //     const payload = this.tokenManager.getPayload(token)
+
+    //     if (payload === null) {
+    //         throw new BadRequestError("'token' inválido")
+    //     }
+
+    //     const posts = await this.postDatabase.getPosts()
+
+    //     const userDatabase = new UserDatabase()
+
+    //     const users = await userDatabase.getUsers()
+
+    //     const commentsDatabase = new CommentsDatabase()
+
+    //     const comments = await commentsDatabase.getCommentsWithCreators()
+
+    //     const resultPost = posts.map((post) => {
+
+    //        const contador = comments.filter((comments) => {
+    //             return comments.post_id === post.id
+    //         })   
+    //         console.log(contador)       
+
+    //         return {
+    //             id: post.id,
+    //             content: post.content,
+    //             likes: post.likes,
+    //             dislikes: post.dislikes,
+    //             comments: contador.length,
+    //             created_at: post.created_at,
+    //             updated_at: post.updated_at,
+    //             creator: resultUser(post.creator_id),
+    //             cmt: contador
+    //         }            
+    //     })
+        
+    //     function resultUser(user: string) {
+    //         const resultTable = users.find((result) => {
+    //             return user === result.id
+    //         })
+
+    //         return {
+    //             id: resultTable?.id,
+    //             name: resultTable?.name                
+    //         }           
+    //     }     
+
+    //     return ({ Post: resultPost })              
+    // }
     
-  
+  //AQUI
 
     public createPost = async (input: CreatePostInputDTO): Promise<boolean> => {
         const { content, token } = input

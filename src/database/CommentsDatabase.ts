@@ -33,7 +33,7 @@ export class CommentsDatabase extends BaseDatabase {
                 "users.name AS creator_name"
             )
             .join("users", "comments.user_id", "=", "users.id")
-
+   console.log(result)
         return result
     }
 

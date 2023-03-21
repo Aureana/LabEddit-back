@@ -37,12 +37,13 @@ export class CommentsBusiness {
             const comment = new Comments (
                 commentsWithCreatorDB.id,
                 commentsWithCreatorDB.post_id,
-                commentsWithCreatorDB.user_id,
+                commentsWithCreatorDB.creator_name,
                 commentsWithCreatorDB.comments,
                 commentsWithCreatorDB.likes,
                 commentsWithCreatorDB.dislikes,
                 commentsWithCreatorDB.created_at,
             )
+            console.log(comment)
             return comment.toBusinessModel()
         })
         const output: GetCommentsOutputDTO = comments

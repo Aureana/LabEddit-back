@@ -90,7 +90,7 @@ export interface UserModel {
 export interface CommentsModel {
     id: string,
     postId: string,
-    userId: string,
+    userName: string,
     comments: string,
     likes: number,
     dislikes: number,

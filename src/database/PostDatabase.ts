@@ -32,6 +32,45 @@ export class PostDatabase extends BaseDatabase {
         return result
     }
 
+    
+    // public getPostsWithComments = async (): Promise<PostWithCreatorDB[]> => {
+    //     const resultPost: PostWithCreatorDB[] = await BaseDatabase
+    //         .connection(PostDatabase.TABLE_POST)
+    //         .select(
+    //             "posts.id",
+    //             "posts.creator_id",
+    //             "posts.content",
+    //             "posts.likes",
+    //             "posts.dislikes",
+    //             "posts.comments",
+    //             "posts.created_at",
+    //             "posts.updated_at",
+    //             "users.name AS creator_name"
+    //         )
+    //         .join("users", "posts.creator_id", "=", "users.id")
+
+    //         const resultComment: CommentWithCreatorDB[] = await BaseDatabase
+    //         .connection(CommentDatabase.TABLE_COMMENT)
+    //         .select(
+    //             "comment.id",
+    //             "comment.post_id",
+    //             "comment.user_id",
+    //             "comment.comments",
+    //             "comment.likes",
+    //             "comment.dislikes",
+    //             "comment.created_at",
+    //             "users.name AS creator_name"
+    //         )
+    //         .join("users", "comment.user_id", "=", "users.id")
+
+    //         const result = {
+    //             ...resultPost,
+    //             comments: resultComment
+    //         }
+
+    //     return result
+    // }
+
     public findPostById = async (idParams: string): Promise<PostDB | undefined> => {
         const result: PostDB[] = await BaseDatabase
             .connection(PostDatabase.TABLE_POSTS)
