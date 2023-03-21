@@ -16,10 +16,17 @@ const commentsController = new CommentsController(
         new TokenManager(),
     )
 )
-
 commentsRouter.post("/:id", commentsController.CreateComments)
 commentsRouter.put("/:id", commentsController.editComments)
 commentsRouter.delete("/:id", commentsController.deleteComments)
 commentsRouter.get("/", commentsController.getComments)
 commentsRouter.get("/:id", commentsController.getCommentsById)
 commentsRouter.put("/:id/like", commentsController.likeDislike)
+
+
+// commentsRouter.post("/:id", commentsController.CreateComments)
+// commentsRouter.put("/:id", commentsController.editComments)
+// commentsRouter.delete("/:id", commentsController.deleteComments)
+// commentsRouter.get("/", commentsController.getComments)
+// commentsRouter.get("/:id", commentsController.getCommentsById)
+// commentsRouter.put("/:id/like", commentsController.likeDislike)

@@ -27,3 +27,7 @@ export interface LikeOrDislikePostInputDTO {
     token: string | undefined,
     like: unknown
 }
+export interface getPostCommentsInputDTO {
+    id: string,
+    token: string | undefined
+}

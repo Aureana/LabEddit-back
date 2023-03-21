@@ -58,7 +58,7 @@ export class CommentsController {
                 token: req.headers.authorization,
                 comments: req.body.comments
             }
-            console.log(input.postId);
+           // console.log(input.postId);
             
             await this.commentsBusiness.createComments(input)
             
