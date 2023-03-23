@@ -13,8 +13,8 @@ export class CommentsDatabase extends BaseDatabase {
             .select()
             .where({ id })
 
-            console.log(id)
-            console.log(result)
+            //console.log(id)
+            //console.log(result)
 
         return result[0]
     }
@@ -87,11 +87,11 @@ export class CommentsDatabase extends BaseDatabase {
                 "comments.id",
                 "comments.post_id",
                 "comments.user_id",
-                "comments.comment",
+                "comments.comments",
                 "comments.likes",
                 "comments.dislikes",
                 "comments.created_at",
-                "users.nickName AS creator_nickName"
+                "users.name AS creator_name"
             )
             .join("users", "comments.user_id", "=", "users.id")
             .where("comments.id", commentsId)
@@ -143,7 +143,7 @@ export class CommentsDatabase extends BaseDatabase {
             .where({
                 post_id: likeDislikeDB.post_id,
                 user_id: likeDislikeDB.user_id,
-                comments_id: likeDislikeDB.comments_id
+               comments_id: likeDislikeDB.comments_id
             })
     }
 

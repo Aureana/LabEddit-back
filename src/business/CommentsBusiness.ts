@@ -98,16 +98,18 @@ export class CommentsBusiness {
         if (payload === null) {
             throw new BadRequestError("'token' inválido")
         }
-        console.log(payload);
-        //console.log(postId, "OLHA AQUI");
         const postDBExists = await this.postDatabase.findPostById(postId)
         
         if (postDBExists === null) {
             throw new NotFoundError("'id' não encontrado")
         }
-
+                
         if (typeof comments !== "string") {
+           
             throw new BadRequestError("'comments' deve ser uma string")
+        }
+        if(comments.length <1){
+            throw new BadRequestError("'comments' deve ter pelo menos uma letra")
         }
 
         const newId = this.idGenerator.generate()
@@ -220,9 +222,10 @@ export class CommentsBusiness {
         if (typeof like !== "boolean") {
             throw new BadRequestError("'like' deve ser boolean")
         }
+        
 
         const commentsWithCreatorDB = await this.commentsDatabase.findCommentsWithCreatorById(idToLikeOrDislike)
-
+        
         if (!commentsWithCreatorDB) {
             throw new NotFoundError("'id' não encontrado")
         }
@@ -239,8 +242,8 @@ export class CommentsBusiness {
 
         const comments = new Comments(
             commentsWithCreatorDB.id,
-            commentsWithCreatorDB.user_id,
             commentsWithCreatorDB.post_id,
+            commentsWithCreatorDB.user_id,            
             commentsWithCreatorDB.comments,
             commentsWithCreatorDB.likes,
             commentsWithCreatorDB.dislikes,
@@ -277,6 +280,7 @@ export class CommentsBusiness {
         }
 
         const updatedCommentsDB = comments.toDBModel()
+        console.log("chegou aqui")
 
         await this.commentsDatabase.updateComments(updatedCommentsDB, idToLikeOrDislike)
     }
