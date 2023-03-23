@@ -28,9 +28,17 @@ export class UserBusiness {
             throw new BadRequestError("'email' deve ser string")
         }
 
+        if (!email.match(/^[\w-.]+@([\w-]+.)+[\w-]{2,4}$/g)) {
+            throw new BadRequestError("ERROR: 'email' deve ser tipo: 'example@example.example'.")
+        }
+
         if (typeof password !== "string") {
             throw new BadRequestError("'password' deve ser string")
         }
+        if (!password.match(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\da-zA-Z]).{8,12}$/g)) {
+            throw new BadRequestError("ERROR: 'Senha' deve conter pelo menos 8 caracteres com pelo mens uma letra maiúscula, pelo menos um número, e um caracter especial'.")
+        }
+        
 
         const emailAlreadyExists = await this.userDatabase.findUserByEmail(email)
 
