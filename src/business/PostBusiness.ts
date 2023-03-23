@@ -208,6 +208,9 @@ export class PostBusiness {
         if (typeof content !== "string") {
             throw new BadRequestError("'content' deve ser uma string")
         }
+        if(content.length <1){
+            throw new BadRequestError("'content' deve ter pelo menos uma letra")
+        }
 
         const id = this.idGenerator.generate()
 

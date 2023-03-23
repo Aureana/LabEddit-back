@@ -138,8 +138,12 @@ ON posts.creator_id = users.id;
 
 SELECT * FROM users;
 
+
+
 SELECT * FROM posts;
 
 SELECT * FROM likes_dislikes;
 
 SELECT * FROM comments;
+
+SELECT*FROM comments_likes_dislikes;
