@@ -28,7 +28,7 @@ export class UserBusiness {
             throw new BadRequestError("'email' deve ser string")
         }
 
-        if (!email.match(/^[\w-.]+@([\w-]+.)+[\w-]{2,4}$/g)) {
+        if (!email.match(/^([a-z]){1,}([a-z0-9._-]){1,}([@]){1}([a-z]){2,}([.]){1}([a-z]){2,}([.]?){1}([a-z]?){2,}$/i)) {
             throw new BadRequestError("ERROR: 'email' deve ser tipo: 'example@example.example'.")
         }
 
