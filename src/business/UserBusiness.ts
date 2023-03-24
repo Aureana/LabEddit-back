@@ -36,7 +36,7 @@ export class UserBusiness {
             throw new BadRequestError("'password' deve ser string")
         }
         if (!password.match(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\da-zA-Z]).{8,12}$/g)) {
-            throw new BadRequestError("ERROR: 'Senha' deve conter pelo menos 8 caracteres com pelo mens uma letra maiúscula, pelo menos um número, e um caracter especial'.")
+            throw new BadRequestError("ERROR: 'Senha' deve conter pelo menos 8 caracteres com pelo menos uma letra maiúscula, pelo menos um número, e um carácter especial'.")
         }
         
 
