@@ -27,7 +27,7 @@ Foi criado dois repositórios pessoais separados, um para o front e um para o ba
 
 
 #
-## Stack utilizada: Front-end: 
+## Stack utilizada: 
 * NodeJS 
 
 * Typescript
